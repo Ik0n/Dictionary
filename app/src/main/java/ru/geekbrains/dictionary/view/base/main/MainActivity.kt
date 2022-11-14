@@ -2,17 +2,27 @@ package ru.geekbrains.dictionary.view.base.main
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.geekbrains.dictionary.R
 import ru.geekbrains.dictionary.databinding.ActivityMainBinding
 import ru.geekbrains.dictionary.model.data.DataModel
 import ru.geekbrains.dictionary.view.base.main.adapter.MainAdapter
 import ru.geekbrains.dictionary.model.data.AppState
+import ru.geekbrains.dictionary.presenter.BaseViewModel
+import ru.geekbrains.dictionary.presenter.MainViewModel
 import ru.geekbrains.dictionary.presenter.Presenter
 import ru.geekbrains.dictionary.view.base.BaseActivity
 import ru.geekbrains.dictionary.view.base.View
 
 class MainActivity : BaseActivity<AppState>() {
+
+    override val model: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
+
+    private val observer = Observer<AppState> { renderData(it) }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -24,20 +34,18 @@ class MainActivity : BaseActivity<AppState>() {
             }
         }
 
-    override fun createPresenter(): Presenter<AppState, View> = MainPresenterImpl()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter = createPresenter()
         binding.searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(
                 object : SearchDialogFragment.OnSearchClickListener {
                     override fun onClick(searchWord: String) {
-                        presenter.getData(searchWord, true)
+                        model.getData(searchWord, true).observe(this@MainActivity, observer)
                     }
                 }
             )
@@ -82,7 +90,7 @@ class MainActivity : BaseActivity<AppState>() {
         showViewError()
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData("hi", true)
+            model.getData("hi", true).observe(this, observer)
         }
     }
 
@@ -110,5 +118,4 @@ class MainActivity : BaseActivity<AppState>() {
         private const val GONE = android.view.View.GONE
         private const val VISIBLE = android.view.View.VISIBLE
     }
-
 }
