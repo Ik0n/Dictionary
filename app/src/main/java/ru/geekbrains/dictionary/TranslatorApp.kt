@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.android.*
 import dagger.android.support.DaggerAppCompatActivity
 import ru.geekbrains.dictionary.di.AppComponent
+import ru.geekbrains.dictionary.di.DaggerAppComponent
 import javax.inject.Inject
 
 class TranslatorApp : Application(), HasAndroidInjector {
