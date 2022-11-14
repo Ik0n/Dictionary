@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.android.AndroidInjection
 import ru.geekbrains.dictionary.R
 import ru.geekbrains.dictionary.databinding.ActivityMainBinding
 import ru.geekbrains.dictionary.model.data.DataModel
@@ -15,12 +16,15 @@ import ru.geekbrains.dictionary.presenter.MainViewModel
 import ru.geekbrains.dictionary.presenter.Presenter
 import ru.geekbrains.dictionary.view.base.BaseActivity
 import ru.geekbrains.dictionary.view.base.View
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<AppState>() {
 
-    override val model: MainViewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    override lateinit var model: MainViewModel
+
+
 
     private val observer = Observer<AppState> { renderData(it) }
 
@@ -37,9 +41,14 @@ class MainActivity : BaseActivity<AppState>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        model = viewModelFactory.create(MainViewModel::class.java)
+        model.subscribe().observe(this@MainActivity, Observer<AppState> { renderData(it) })
+
         binding.searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(
