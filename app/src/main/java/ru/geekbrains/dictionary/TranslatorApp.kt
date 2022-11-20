@@ -1,27 +1,16 @@
 package ru.geekbrains.dictionary
 
 import android.app.Application
-import dagger.android.*
-import dagger.android.support.DaggerAppCompatActivity
-import ru.geekbrains.dictionary.di.AppComponent
-import ru.geekbrains.dictionary.di.DaggerAppComponent
-import javax.inject.Inject
+import org.koin.core.context.startKoin
+import ru.geekbrains.dictionary.di.application
+import ru.geekbrains.dictionary.di.mainScreen
 
-class TranslatorApp : Application(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return dispatchingAndroidInjector
-    }
-
+class TranslatorApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.builder()
-            .application(this)
-            .build()
-            .inject(this)
+        startKoin {
+            modules(listOf(application, mainScreen))
+        }
     }
 }

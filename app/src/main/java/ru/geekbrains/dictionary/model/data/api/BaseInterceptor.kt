@@ -1,9 +1,9 @@
-package ru.geekbrains.dictionary.model.datasource
+package ru.geekbrains.dictionary.model.data.api
 
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class BaseInterceptor private constructor() : Interceptor{
+class BaseInterceptor private constructor() : Interceptor {
 
     private var responseCode: Int = 0
 
