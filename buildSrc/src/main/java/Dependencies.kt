@@ -63,6 +63,8 @@ object Versions {
     const val koinCore = "3.1.2"
     const val koinAndroid = "3.1.2"
     const val koinAndroidCompat = "3.1.2"
+    const val koinViewModel = "3.1.2"
+    const val koinAndroidScope = "3.1.2"
 
     //Picasso
     const val picasso = "2.71828"
@@ -133,7 +135,8 @@ object Koin {
     const val koin_android = "io.insert-koin:koin-android:${Versions.koinAndroid}"
     const val koin_core = "io.insert-koin:koin-core:${Versions.koinCore}"
     const val koin_android_compat = "io.insert-koin:koin-android-compat:${Versions.koinAndroidCompat}"
-    //const val koin_view_model = "org.koin:koin-android-viewmodel:${Versions.koinViewModel}"
+    const val koin_android_scope = "io.insert-koin:koin-android-scope:${Versions.koinAndroidScope}"
+    const val koin_view_model = "io.insert-koin:koin-android-viewmodel:${Versions.koinViewModel}"
 }
 
 object Coil {

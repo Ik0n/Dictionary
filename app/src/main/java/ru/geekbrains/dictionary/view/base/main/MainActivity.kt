@@ -6,7 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+import org.koin.android.ext.android.inject
 import ru.geekbrains.core.BaseActivity
 import ru.geekbrains.dictionary.R
 import ru.geekbrains.dictionary.databinding.ActivityMainBinding
@@ -17,12 +20,20 @@ import ru.geekbrains.historyscreen.view.history.HistoryActivity
 import ru.geekbrains.model.AppState
 import ru.geekbrains.model.DataModel
 import ru.geekbrains.utils.isOnline
+import ru.geekbrains.utils.viewById
+
+
+
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private lateinit var binding: ActivityMainBinding
-    override lateinit var model: MainViewModel
+    override lateinit var model: ru.geekbrains.dictionary.view.base.main.MainViewModel
+
+    private val mainActivityRecyclerView by viewById<RecyclerView>(R.id.main_activity_recyclerview)
+    private val searchFAB by viewById<FloatingActionButton>(R.id.search_fab)
 
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
 
@@ -61,17 +72,16 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         if (binding.mainActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val viewModel: MainViewModel by viewModel()
+
+        val viewModel: MainViewModel by inject()
         model = viewModel
         model.subscribe().observe(this@MainActivity) { renderData(it) }
     }
 
     private fun initViews() {
-        with(binding) {
-            searchFab.setOnClickListener(fabClickListener)
-            mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-            mainActivityRecyclerview.adapter = adapter
-        }
+        searchFAB.setOnClickListener(fabClickListener)
+        mainActivityRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRecyclerView.adapter = adapter
     }
 
 
@@ -79,7 +89,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Toast.makeText(this,"QWE", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "QWE", Toast.LENGTH_SHORT).show()
         initViewModel()
         initViews()
     }
@@ -90,7 +100,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.menu_history -> {
                 startActivity(Intent(this, HistoryActivity::class.java))
                 true

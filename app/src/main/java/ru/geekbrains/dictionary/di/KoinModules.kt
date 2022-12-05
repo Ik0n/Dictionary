@@ -1,10 +1,14 @@
 package ru.geekbrains.dictionary.di
 
 import androidx.room.Room
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import ru.geekbrains.dictionary.view.base.main.MainActivity
 
 import ru.geekbrains.dictionary.view.base.main.MainInteractor
 import ru.geekbrains.dictionary.view.base.main.MainViewModel
+import ru.geekbrains.historyscreen.view.history.HistoryActivity
 import ru.geekbrains.historyscreen.view.history.HistoryInteractor
 import ru.geekbrains.historyscreen.view.history.HistoryViewModel
 import ru.geekbrains.model.DataModel
@@ -21,11 +25,15 @@ val application = module {
 }
 
 val mainScreen = module {
-    factory { MainViewModel(get()) }
-    factory { MainInteractor(get(), get()) }
+    scope(named<MainActivity>()) {
+        scoped { MainInteractor(get(), get()) }
+        viewModel { MainViewModel(get()) }
+    }
 }
 
 val historyScreen = module {
-    factory { HistoryViewModel(get()) }
-    factory { HistoryInteractor(get(), get()) }
+    scope(named<HistoryActivity>()) {
+        scoped { HistoryInteractor(get(), get()) }
+        viewModel { HistoryViewModel(get()) }
+    }
 }
