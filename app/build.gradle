@@ -71,7 +71,6 @@ dependencies {
     implementation Dagger.dagger_android
     implementation Dagger.dagger_android_support
     implementation project(path: ':model')
-    implementation project(path: ':model')
     kapt Dagger.dagger_compiler
     kapt Dagger.dagger_android_processor
 

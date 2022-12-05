@@ -2,6 +2,9 @@ package ru.geekbrains.historyscreen.view.history
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.activityScope
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.geekbrains.core.BaseActivity
 import ru.geekbrains.historyscreen.databinding.ActivityHistoryBinding
@@ -18,7 +21,6 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initViewModel()
         initViews()
     }
@@ -27,7 +29,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
         if (binding.historyActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel shoud be initialised first")
         }
-        val viewModel: HistoryViewModel by viewModel()
+        val viewModel: HistoryViewModel by inject()
         model = viewModel
         model.subscribe().observe(this@HistoryActivity, Observer<AppState> {
             renderData(it)
