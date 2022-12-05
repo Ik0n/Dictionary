@@ -1,10 +1,10 @@
 package ru.geekbrains.dictionary.view.base.main
 
-import ru.geekbrains.dictionary.model.data.AppState
-import ru.geekbrains.dictionary.model.data.DataModel
-import ru.geekbrains.dictionary.model.repository.Repository
-import ru.geekbrains.dictionary.model.repository.RepositoryLocal
-import ru.geekbrains.dictionary.viewmodel.Interactor
+import ru.geekbrains.core.viewmodel.Interactor
+import ru.geekbrains.model.AppState
+import ru.geekbrains.model.DataModel
+import ru.geekbrains.repository.Repository
+import ru.geekbrains.repository.RepositoryLocal
 
 class MainInteractor(
     private val repositoryRemote: Repository<List<DataModel>>,

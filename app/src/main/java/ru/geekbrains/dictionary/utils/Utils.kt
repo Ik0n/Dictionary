@@ -1,9 +1,9 @@
 package ru.geekbrains.dictionary.utils
 
-import ru.geekbrains.dictionary.model.data.AppState
-import ru.geekbrains.dictionary.model.data.DataModel
-import ru.geekbrains.dictionary.model.data.Meanings
-import ru.geekbrains.dictionary.model.database.HistoryEntity
+import ru.geekbrains.repository.room.HistoryEntity
+import ru.geekbrains.model.AppState
+import ru.geekbrains.model.DataModel
+import ru.geekbrains.model.Meanings
 
 fun parseSearchResults(state: AppState): AppState {
     val newSearchResults = arrayListOf<DataModel>()
@@ -24,8 +24,8 @@ fun parseSearchResults(state: AppState): AppState {
 private fun parseResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings) {
-            if (meaning.translation != null && !meaning.translation.translation.isNullOrBlank()) {
+        for (meaning in dataModel.meanings!!) {
+            if (meaning.translation != null && !meaning.translation!!.translation.isNullOrBlank()) {
                 newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
             }
         }
@@ -114,9 +114,9 @@ private fun parseOnlineResult(dataModel: DataModel, newDataModels:
 ArrayList<DataModel>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings) {
+        for (meaning in dataModel.meanings!!) {
             if (meaning.translation != null &&
-                !meaning.translation.translation.isNullOrBlank()
+                !meaning.translation!!.translation.isNullOrBlank()
             ) {
                 newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
             }
