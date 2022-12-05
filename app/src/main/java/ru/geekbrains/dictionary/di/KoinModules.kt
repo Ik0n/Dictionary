@@ -2,24 +2,21 @@ package ru.geekbrains.dictionary.di
 
 import androidx.room.Room
 import org.koin.dsl.module
-import ru.geekbrains.dictionary.history.HistoryInteractor
-import ru.geekbrains.dictionary.history.HistoryViewModel
-import ru.geekbrains.dictionary.model.data.DataModel
-import ru.geekbrains.dictionary.model.database.HistoryDataBase
-import ru.geekbrains.dictionary.model.datasource.RetrofitImpl
-import ru.geekbrains.dictionary.model.datasource.RoomDataBaseImpl
-import ru.geekbrains.dictionary.model.repository.Repository
-import ru.geekbrains.dictionary.model.repository.RepositoryImpl
-import ru.geekbrains.dictionary.model.repository.RepositoryImplLocal
-import ru.geekbrains.dictionary.model.repository.RepositoryLocal
+
 import ru.geekbrains.dictionary.view.base.main.MainInteractor
 import ru.geekbrains.dictionary.view.base.main.MainViewModel
+import ru.geekbrains.historyscreen.view.history.HistoryInteractor
+import ru.geekbrains.historyscreen.view.history.HistoryViewModel
+import ru.geekbrains.model.DataModel
+import ru.geekbrains.repository.*
+import ru.geekbrains.repository.room.HistoryDataBase
+
 
 val application = module {
     single { Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB").build() }
     single { get<HistoryDataBase>().historyDao() }
     single<Repository<List<DataModel>>> { RepositoryImpl(RetrofitImpl()) }
-    single<RepositoryLocal<List<DataModel>>> { RepositoryImplLocal(RoomDataBaseImpl(get()))
+    single<RepositoryLocal<List<DataModel>>> { RepositoryImplLocal(HistoryDataBaseImpl(get()))
     }
 }
 

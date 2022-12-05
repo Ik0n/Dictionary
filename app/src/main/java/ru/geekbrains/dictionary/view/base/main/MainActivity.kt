@@ -7,16 +7,17 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.geekbrains.core.BaseActivity
 import ru.geekbrains.dictionary.R
 import ru.geekbrains.dictionary.databinding.ActivityMainBinding
-import ru.geekbrains.dictionary.history.HistoryActivity
-import ru.geekbrains.dictionary.model.data.AppState
-import ru.geekbrains.dictionary.model.data.DataModel
 import ru.geekbrains.dictionary.utils.convertMeaningsToString
-import ru.geekbrains.dictionary.utils.isOnline
-import ru.geekbrains.dictionary.view.base.BaseActivity
 import ru.geekbrains.dictionary.view.base.description.DescriptionActivity
 import ru.geekbrains.dictionary.view.base.main.adapter.MainAdapter
+import ru.geekbrains.historyscreen.view.history.HistoryActivity
+import ru.geekbrains.model.AppState
+import ru.geekbrains.model.DataModel
+import ru.geekbrains.utils.isOnline
+
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
@@ -39,7 +40,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         this@MainActivity,
                         data.text!!,
                         convertMeaningsToString(data.meanings!!),
-                        data.meanings[0].imageUrl
+                        data.meanings!![0].imageUrl
                     )
                 )
             }
@@ -62,7 +63,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         }
         val viewModel: MainViewModel by viewModel()
         model = viewModel
-        model.subscribe().observe(this@MainActivity, { renderData(it) })
+        model.subscribe().observe(this@MainActivity) { renderData(it) }
     }
 
     private fun initViews() {

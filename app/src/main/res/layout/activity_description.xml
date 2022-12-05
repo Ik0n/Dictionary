@@ -32,7 +32,7 @@
             tools:text="Description: Lorem ipsum dolor sit amet, consectetur
 adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
 aliqua."/>
-        <ru.geekbrains.dictionary.view.base.description.EquilateralImageView
+        <ru.geekbrains.utils.EquilateralImageView
             android:id="@+id/description_imageview"
             android:layout_width="match_parent"
             android:layout_marginStart="@dimen/margin_medium"

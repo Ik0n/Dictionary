@@ -5,9 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import coil.ImageLoader
 import coil.request.LoadRequest
@@ -22,9 +20,8 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import ru.geekbrains.dictionary.R
 import ru.geekbrains.dictionary.databinding.ActivityDescriptionBinding
-import ru.geekbrains.dictionary.utils.AlertDialogFragment
-import ru.geekbrains.dictionary.utils.isOnline
-import java.lang.Exception
+import ru.geekbrains.utils.AlertDialogFragment
+import ru.geekbrains.utils.isOnline
 
 class DescriptionActivity : AppCompatActivity() {
 
